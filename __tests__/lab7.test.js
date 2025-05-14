@@ -127,7 +127,7 @@ describe('Basic user flow for Website', () => {
   }, 100000);
 
   // Check to make sure that after you reload the page it remembers all of the items in your cart
-  it.skip('Checking number of items in cart on screen after reload', async () => {
+  it('Checking number of items in cart on screen after reload', async () => {
     console.log('Checking number of items in cart on screen after reload...');
 
     /**
@@ -137,8 +137,23 @@ describe('Basic user flow for Website', () => {
      * Also check to make sure that #cart-count is still 20
      * Remember to remove the .skip from this it once you are finished writing this test.
      */
+    await page.reload();
+    const prodItems = await page.$$('product-item');
+    for (let i = 0; i < prodItems.length; i++) {
+      const prodItem = prodItems[i];
+      const shadowRoot = await prodItem.getProperty('shadowRoot');
+      const button = await shadowRoot.$('button');
+      const buttonTExt = await button.getProperty('innerText');
+      const buttonTextValue = await buttonTExt.jsonValue();
+      expect(buttonTextValue).toBe('Remove from Cart');
+    }
+    const cartCount = await page.$('#cart-count');
+    const cartCountValue = await cartCount.getProperty('innerText');
+    const cartCountText = await cartCountValue.jsonValue();
+    expect(cartCountText).toBe('20');
+    console.log('Cart count is still 20');
 
-  }, 10000);
+  }, 100000);
 
   // Check to make sure that the cart in localStorage is what you expect
   it.skip('Checking the localStorage to make sure cart is correct', async () => {
