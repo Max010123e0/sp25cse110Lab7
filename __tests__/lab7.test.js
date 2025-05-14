@@ -156,7 +156,7 @@ describe('Basic user flow for Website', () => {
   }, 100000);
 
   // Check to make sure that the cart in localStorage is what you expect
-  it.skip('Checking the localStorage to make sure cart is correct', async () => {
+  it('Checking the localStorage to make sure cart is correct', async () => {
 
     /**
      **** TODO - STEP 5 **** 
@@ -174,7 +174,7 @@ describe('Basic user flow for Website', () => {
 
   // Checking to make sure that if you remove all of the items from the cart that the cart
   // number in the top right of the screen is 0
-  it.skip('Checking number of items in cart on screen after removing from cart', async () => {
+  it('Checking number of items in cart on screen after removing from cart', async () => {
     console.log('Checking number of items in cart on screen...');
 
     /**
@@ -183,8 +183,20 @@ describe('Basic user flow for Website', () => {
      * Once you have, check to make sure that #cart-count is now 0
      * Remember to remove the .skip from this it once you are finished writing this test.
      */
+    const prodItems = await page.$$('product-item');
+    for (let i = 0; i < prodItems.length; i++) {
+      const prodItem = prodItems[i];
+      const shadowRoot = await prodItem.getProperty('shadowRoot');
+      const button = await shadowRoot.$('button');
+      await button.click();
+    }
+    const cartCount = await page.$('#cart-count');
+    const cartCountValue = await cartCount.getProperty('innerText');
+    const cartCountText = await cartCountValue.jsonValue();
+    expect(cartCountText).toBe('0');
+    console.log('Cart count is 0');
 
-  }, 10000);
+  }, 100000);
 
   // Checking to make sure that it remembers us removing everything from the cart
   // after we refresh the page
