@@ -7,5 +7,13 @@ The reason of the automated test is whenever developer push codes into remote re
 # Q2.
 Answer: No
 
+# Q3.
+Navigation mode analyzes a page right after it loads, so it is useful to check if we can make further optimization with embedded images or points can be improved in gernal for faster page load. However, Snapshot mode analyzes a page in its current states. It is good for checking its accessibilitiy or the code is in good practices.
+
+# Q4.
+1) Properly size images 
+2) Preconnect to required origins 
+3) Largest Contentful Paint element
+
 
 
